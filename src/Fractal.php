@@ -209,7 +209,7 @@ class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoader
                 if ($mappings->$name) {
                     if (strpos($mappings->$name, '/') !== 0) {
                         //throw new Exception(realpath($fractalBasePath) . '/' . $mappings->$name->dest . '/' . $mappings->$name->file);
-                        $template = realpath($fractalBasePath) . '/templates/' . $mappings->$name;
+                        $template = realpath($fractalBasePath) . '/' . $mappings->$name;
                     } else {
                         $template = $mappings->$name;
                     }
@@ -217,7 +217,7 @@ class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoader
             }
             else
             {
-                throw new Exception(Craft::t('Could not read Fractal mappings file at %s.', array('path' => FRACTAL_COMPONENTS_MAP)));
+                throw new Exception(Craft::t('app', 'Could not read Fractal mappings file at {path}.', array('path' => $mappingPath)));
             }
         }
         else
