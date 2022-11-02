@@ -22,8 +22,6 @@ use craft\web\twig\TemplateLoader;
 use craft\web\twig\TemplateLoaderException;
 use craft\web\View;
 
-use ournameismud\fractal\models\Settings;
-
 use yii\base\Exception;
 use yii\base\Event;
 
@@ -124,22 +122,12 @@ class Fractal extends Plugin
 
         //TemplatesService::getTwig()->setLoader();
         $twig = Craft::$app->getView()->getTwig()->setLoader(new FractalTemplateLoader());
-
+        
         //craft()->templates->getTwig()->setLoader(new FractalTemplateLoader());
     }
 
     // Protected Methods
     // =========================================================================
-
-    /**
-     * Creates and returns the model used to store the plugin’s settings.
-     *
-     * @return \craft\base\Model|null
-     */
-    protected function createSettingsModel()
-    {
-        return new Settings();
-    }
 
 }
 
@@ -195,21 +183,17 @@ class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoader
 
     private function _findTemplate($name)
     {
-        $fractalBasePath = Fractal::getInstance()->settings->fractalBasePath;
-        if ($fractalBasePath === '') {
-            $fractalBasePath = CRAFT_BASE_PATH;
-        }
 
         if (strpos($name, '@') === 0)
         {
-            $mappingPath = $fractalBasePath. '/components-map.json';
+            $mappingPath = CRAFT_BASE_PATH. '/components-map.json';
             if (is_readable($mappingPath))
             {
                 $mappings = json_decode(file_get_contents($mappingPath));
                 if ($mappings->$name) {
                     if (strpos($mappings->$name, '/') !== 0) {
-                        //throw new Exception(realpath($fractalBasePath) . '/' . $mappings->$name->dest . '/' . $mappings->$name->file);
-                        $template = realpath($fractalBasePath) . '/templates/' . $mappings->$name;
+                        //throw new Exception(realpath(CRAFT_BASE_PATH) . '/' . $mappings->$name->dest . '/' . $mappings->$name->file);
+                        $template = realpath(CRAFT_BASE_PATH) . '/templates/' . $mappings->$name;
                     } else {
                         $template = $mappings->$name;
                     }
