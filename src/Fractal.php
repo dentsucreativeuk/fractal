@@ -11,16 +11,9 @@
 namespace dentsucreativeuk\fractal;
 
 use Craft;
-//use FractalTemplateLoader;
-use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
-use craft\web\twig\Environment;
-use craft\web\twig\Extension;
-use craft\web\twig\Template;
-use craft\web\twig\TemplateLoader;
 use craft\web\twig\TemplateLoaderException;
-use craft\web\View;
 
 use yii\base\Exception;
 use yii\base\Event;
@@ -40,7 +33,7 @@ use yii\base\Event;
  * @since     1.0.0
  *
  */
-class Fractal extends Plugin
+class Fractal extends craft\base\Plugin
 {
     // Static Properties
     // =========================================================================
@@ -131,7 +124,7 @@ class Fractal extends Plugin
 
 }
 
-class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
+class FractalTemplateLoader implements \Twig\Loader\LoaderInterface
 {
 
     public function exists($name)
@@ -139,7 +132,7 @@ class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoader
         return Craft::$app->templates->doesTemplateExist($name);
     }
 
-    public function getSourceContext($name)
+    public function getSourceContext(string $name): \Twig\Source
     {
         //throw new Exception($name);
         $template = $this->_findTemplate($name);
@@ -149,10 +142,10 @@ class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoader
             //throw new Exception($template);
         }
 
-        return new \Twig_Source(file_get_contents($template), $name, $template);
+        return new \Twig\Source(file_get_contents($template), $name, $template);
     }
 
-    public function getCacheKey($name)
+    public function getCacheKey(string $name): string
     {
         if (is_string($name))
         {
@@ -164,7 +157,7 @@ class FractalTemplateLoader implements \Twig_LoaderInterface, \Twig_ExistsLoader
         }
     }
 
-    public function isFresh($name, $time)
+    public function isFresh(string $name, int $time): bool
     {
         // If this is a CP request and a DB update is needed, force a recompile.
         $request = Craft::$app->getRequest();
