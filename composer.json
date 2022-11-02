@@ -2,6 +2,7 @@
     "name": "ournameismud/fractal",
     "description": "Custom Fractal plugin",
     "type": "craft-plugin",
+    "version": "1.0.8",
     "keywords": [
         "craft",
         "cms",
