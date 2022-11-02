@@ -157,6 +157,17 @@ class FractalTemplateLoader implements \Twig\Loader\LoaderInterface
         }
     }
 
+    public function isFresh(string $name, int $time): bool
+    {
+        if (is_string($name)) {
+            $sourceModifiedTime = filemtime($this->_findTemplate($name));
+
+            return $sourceModifiedTime <= $time;
+        }
+
+        return false;
+    }
+
     private function _findTemplate($name)
     {
 
