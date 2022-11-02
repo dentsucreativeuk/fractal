@@ -4,8 +4,9 @@
  *
  * Custom Fractal plugin
  *
- * @link      http://ournameismud.co.uk/
+ * @link      http://www.dentsucreative.com/
  * @copyright Copyright (c) 2018 Rich @ Mud
+ * @copyright Dentsu Creative UK
  */
 
 /**

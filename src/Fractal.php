@@ -4,11 +4,11 @@
  *
  * Custom Fractal plugin
  *
- * @link      http://ournameismud.co.uk/
- * @copyright Copyright (c) 2018 Rich @ Mud
+ * @link      http://www.dentsucreative.com/
+ * @copyright Dentsu Creative UK
  */
 
-namespace ournameismud\fractal;
+namespace dentsucreativeuk\fractal;
 
 use Craft;
 //use FractalTemplateLoader;
@@ -61,7 +61,7 @@ class Fractal extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.0.0';
 
     // Public Methods
     // =========================================================================
@@ -122,7 +122,7 @@ class Fractal extends Plugin
 
         //TemplatesService::getTwig()->setLoader();
         $twig = Craft::$app->getView()->getTwig()->setLoader(new FractalTemplateLoader());
-        
+
         //craft()->templates->getTwig()->setLoader(new FractalTemplateLoader());
     }
 

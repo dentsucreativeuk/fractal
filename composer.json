@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ournameismud\\fractal\\": "src/"
+            "dentsucreativeuk\\fractal\\": "src/"
         }
     },
     "extra": {
@@ -39,6 +39,6 @@
         "hasCpSettings": false,
         "hasCpSection": false,
         "changelogUrl": "https://raw.githubusercontent.com/rjgux/fractal/master/CHANGELOG.md",
-        "class": "ournameismud\\fractal\\Fractal"
+        "class": "dentsucreativeuk\\fractal\\Fractal"
     }
 }

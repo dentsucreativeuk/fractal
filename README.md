@@ -16,7 +16,7 @@ To install the plugin, follow these instructions.
 
 2. Then tell Composer to load the plugin:
 
-   composer require ournameismud/fractal
+   composer require dentsucreativeuk/fractal
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Fractal.
 
@@ -30,3 +30,4 @@ Credit [allmarkedup](https://github.com/allmarkedup) for original [Fractal compo
 
 Special thanks to contributors - @jmcgaha
 
+Thanks go to https://github.com/ournameismud/fractal for the original repository.
