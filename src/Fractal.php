@@ -54,7 +54,7 @@ class Fractal extends craft\base\Plugin
      *
      * @var string
      */
-    public string $schemaVersion = '1.0.0';
+    // public string $schemaVersion = '1.0.0';
 
     // Public Methods
     // =========================================================================
@@ -155,23 +155,6 @@ class FractalTemplateLoader implements \Twig\Loader\LoaderInterface
         {
             return $name->cacheKey;
         }
-    }
-
-    public function isFresh(string $name, int $time): bool
-    {
-        // If this is a CP request and a DB update is needed, force a recompile.
-        $request = Craft::$app->getRequest();
-        if ($request->getIsCpRequest() && Craft::$app->getUpdates()->getIsCraftDbMigrationNeeded()) {
-            return false;
-        }
-
-        if (is_string($name)) {
-            $sourceModifiedTime = filemtime($this->_findTemplate($name));
-
-            return $sourceModifiedTime <= $time;
-        }
-
-        return false;
     }
 
     private function _findTemplate($name)
