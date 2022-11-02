@@ -1,5 +1,5 @@
 {
-    "name": "ournameismud/fractal",
+    "name": "dentsucreativeuk/fractal",
     "description": "Custom Fractal plugin",
     "type": "craft-plugin",
     "version": "1.0.8",
@@ -11,18 +11,22 @@
         "fractal"
     ],
     "support": {
-        "docs": "https://github.com/rjgux/fractal/blob/master/README.md",
-        "issues": "https://github.com/rjgux/fractal/issues"
+        "docs": "https://github.com/dentsucreativeuk/fractal/blob/master/README.md",
+        "issues": "https://github.com/dentsucreativeuk/fractal/issues"
     },
     "license": "MIT",
     "authors": [
         {
             "name": "Rich @ Mud",
             "homepage": "http://ournameismud.co.uk/"
+        },
+        {
+            "name": "Dentsu Creative UK",
+            "homepage": "https://www.dentsucreative.com/"
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0-RC1"
+        "craftcms/cms": "^3|^4"
     },
     "autoload": {
         "psr-4": {
