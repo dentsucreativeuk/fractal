@@ -12,11 +12,11 @@ namespace dentsucreativeuk\fractal;
 
 use Craft;
 use craft\services\Plugins;
+use craft\web\twig\variables\CraftVariable;
 use craft\events\PluginEvent;
-use craft\web\twig\TemplateLoaderException;
-
-use yii\base\Exception;
 use yii\base\Event;
+
+use dentsucreativeuk\fractal\helpers\FractalTemplateLoader;
 
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
@@ -73,7 +73,6 @@ class Fractal extends craft\base\Plugin
     public function init()
     {
         parent::init();
-        self::$plugin = $this;
 
         // Do something after we're installed
         Event::on(
@@ -86,24 +85,6 @@ class Fractal extends craft\base\Plugin
             }
         );
 
-/**
- * Logging in Craft involves using one of the following methods:
- *
- * Craft::trace(): record a message to trace how a piece of code runs. This is mainly for development use.
- * Craft::info(): record a message that conveys some useful information.
- * Craft::warning(): record a warning message that indicates something unexpected has happened.
- * Craft::error(): record a fatal error that should be investigated as soon as possible.
- *
- * Unless `devMode` is on, only Craft::warning() & Craft::error() will log to `craft/storage/logs/web.log`
- *
- * It's recommended that you pass in the magic constant `__METHOD__` as the second parameter, which sets
- * the category to the method (prefixed with the fully qualified class name) where the constant appears.
- *
- * To enable the Yii debug toolbar, go to your user account in the AdminCP and check the
- * [] Show the debug toolbar on the front end & [] Show the debug toolbar on the Control Panel
- *
- * http://www.yiiframework.com/doc-2.0/guide-runtime-logging.html
- */
         Craft::info(
             Craft::t(
                 'fractal',
@@ -113,98 +94,12 @@ class Fractal extends craft\base\Plugin
             __METHOD__
         );
 
-        //TemplatesService::getTwig()->setLoader();
-        $twig = Craft::$app->getView()->getTwig()->setLoader(new FractalTemplateLoader());
-
-        //craft()->templates->getTwig()->setLoader(new FractalTemplateLoader());
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-}
-
-class FractalTemplateLoader implements \Twig\Loader\LoaderInterface
-{
-
-    public function exists($name)
-    {
-        if (method_exists(Craft::$app->view, 'doesTemplateExist')) {
-            return Craft::$app->view->doesTemplateExist($name);
-        }
-
-        return Craft::$app->templates->doesTemplateExist($name);
-    }
-
-    public function getSourceContext(string $name): \Twig\Source
-    {
-        //throw new Exception($name);
-        $template = $this->_findTemplate($name);
-
-        if (!is_readable($template)) {
-            //throw new TemplateLoaderException($name, Craft::t('app', 'Tried to read the template at {path}, but could not. Check the permissions.', ['path' => $template]));
-            //throw new Exception($template);
-        }
-
-        return new \Twig\Source(file_get_contents($template), $name, $template);
-    }
-
-    public function getCacheKey(string $name): string
-    {
-        if (is_string($name))
-        {
-            return $this->_findTemplate($name);
-        }
-        else
-        {
-            return $name->cacheKey;
-        }
-    }
-
-    public function isFresh(string $name, int $time): bool
-    {
-        if (is_string($name)) {
-            $sourceModifiedTime = filemtime($this->_findTemplate($name));
-
-            return $sourceModifiedTime <= $time;
-        }
-
-        return false;
-    }
-
-    private function _findTemplate($name)
-    {
-
-        if (strpos($name, '@') === 0)
-        {
-            $mappingPath = CRAFT_BASE_PATH. '/components-map.json';
-            if (is_readable($mappingPath))
-            {
-                $mappings = json_decode(file_get_contents($mappingPath));
-                if ($mappings->$name) {
-                    if (strpos($mappings->$name, '/') !== 0) {
-                        //throw new Exception(realpath(CRAFT_BASE_PATH) . '/' . $mappings->$name->dest . '/' . $mappings->$name->file);
-                        $template = realpath(CRAFT_BASE_PATH) . '/templates/' . $mappings->$name;
-                    } else {
-                        $template = $mappings->$name;
-                    }
-                }
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function() {
+                Craft::$app->getView()->getTwig()->setLoader(new FractalTemplateLoader());
             }
-            else
-            {
-                throw new Exception(Craft::t('Could not read Fractal mappings file at %s.', array('path' => FRACTAL_COMPONENTS_MAP)));
-            }
-        }
-        else
-        {
-            $template = Craft::$app->getView()->resolveTemplate($name);
-        }
-        if (!$template)
-        {
-            //throw new TemplateLoaderException($name);
-            throw new TemplateLoaderException($name, Craft::t('app', 'Unable to find the template “{template}”.', ['template' => $name]));
-        }
-        return $template;
+        );
     }
-
 }

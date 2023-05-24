@@ -2,7 +2,7 @@
     "name": "dentsucreativeuk/fractal",
     "description": "Custom Fractal plugin",
     "type": "craft-plugin",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "keywords": [
         "craft",
         "cms",
